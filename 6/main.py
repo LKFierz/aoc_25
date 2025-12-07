@@ -29,9 +29,9 @@
 #
 import numpy as np
 
-with open("test.txt") as f:
+with open("input11494432585168.txt") as f:
     lines = f.readlines()
-stripped_lines = [line.strip() for line in lines]
+stripped_lines = [line.replace("\n","") for line in lines]
 print(stripped_lines)
 numbers_strings = np.array([[char for char in line] for line in stripped_lines[:-1]])
 operators_strings = stripped_lines[-1]
@@ -48,15 +48,28 @@ for col_id in range(len(numbers_strings[0])):
     column = numbers_strings[:,col_id]
     if np.all(column == " "):
         if operators[op_id] == "+":
-            count += np.sum(numbers)
+            result = np.sum(numbers)
+            print(f"adding numbers {numbers} which is {result}")
+            count += result
         elif operators[op_id] == "*":
-            count += np.prod(numbers)
+            result = np.prod(numbers)
+            count += result
+            print(f"multiplying numbers {numbers} which is {result}")
         numbers = []
         op_id += 1
         continue
     number = int("".join([entry for entry in column if entry != " "]))
+    print(f"adding {number} to numbers")
     numbers.append(number)
 
+if operators[op_id] == "+":
+    result = np.sum(numbers)
+    print(f"adding numbers {numbers} which is {result}")
+    count += result
+elif operators[op_id] == "*":
+    result = np.prod(numbers)
+    count += result
+    print(f"multiplying numbers {numbers} which is {result}")
      
 
 
