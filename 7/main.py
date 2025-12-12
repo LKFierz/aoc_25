@@ -32,23 +32,28 @@ with open("input.txt") as f:
 
 print(f"map\n: {map}")
 start_indx = np.where(map == "S")
-occupied_cols = [start_indx[1][0]]
+occupied_cols = np.zeros_like(map[0,:],dtype=int) 
+occupied_cols[start_indx[1][0]] = 1
 count = 0
 
+
 for row in range(map.shape[0]):
-    new_indexes = [] 
-    for col in occupied_cols:
+    new_indexes = np.zeros_like(map[0,:],dtype=int) 
+    print(f"occupied before: {occupied_cols}")
+    for col, num in enumerate(occupied_cols):
         #prep position for vertical move
         if map[row,col] == "^":
-            count += 1
-            new_indexes.append(col-1)
-            new_indexes.append(col+1)
+            print("found")
+            new_indexes[col-1] += num
+            new_indexes[col+1] += num
         else:
-            new_indexes.append(col)
+            new_indexes[col] += num
     occupied_cols = new_indexes
+    print(f"occupied after: {occupied_cols}")
 
+print(f"type of occupied_cells {type(occupied_cols)}")
 
-print(f"count: {count}")
+print(f"count: {np.sum(occupied_cols)}")
 
 
 
